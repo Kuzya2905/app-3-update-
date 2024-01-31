@@ -1,8 +1,9 @@
 import PlusSVG from "./SVG/PlusSVG.tsx";
 import React from "react";
-import { addItem, setTotalPrice, setTotalCount } from "../../redux/slices/cart.tsx";
+import { addItemToCart, setTotalPrice, setTotalCount } from "../../redux/slices/cart.tsx";
 import { Link } from "react-router-dom";
-import { useAppDispatch } from "../../redux/store.tsx";
+import { RootState, useAppDispatch } from "../../redux/store.tsx";
+import { useSelector } from "react-redux";
 
 type typesCardProps = {title:string, price:number, imageUrl:string, types:number[], sizes:number[], id:string}
 
@@ -12,10 +13,28 @@ const Card:React.FC<typesCardProps> = ({ title, price, imageUrl, types, sizes, i
   const [activeType, setActiveType] = React.useState(types[0]);
   const typeNames = ["тонкое", "традиционное"];
   const dispatch = useAppDispatch();
+  const {itemsCart} = useSelector((state:RootState)=> state.cart)
+
   React.useEffect(() => {
     dispatch(setTotalPrice());
     dispatch(setTotalCount());
   }, [count, dispatch]);
+
+  React.useEffect(()=> {
+    const countItem = itemsCart.filter(item => item.id === id).reduce((acc, item)=> acc + item.count, 0)
+    localStorage.setItem(`Pizza_id:${id}`, JSON.stringify(countItem))
+  }, [count, id, itemsCart])
+
+  React.useEffect(()=> {
+    if(localStorage.getItem(`Pizza_id:${id}`)){
+      setCount(()=> Number(localStorage.getItem(`Pizza_id:${id}`)))
+    }
+  }, [id])
+
+  
+
+  
+  
   
   return (
     <div className="pizza-card">
@@ -26,7 +45,6 @@ const Card:React.FC<typesCardProps> = ({ title, price, imageUrl, types, sizes, i
       <div className="info">
         <div className="thickness">
           {types.map((typeId:number, index:number) => {
-            
             return (
               <button
                 onClick={() => {
@@ -71,7 +89,7 @@ const Card:React.FC<typesCardProps> = ({ title, price, imageUrl, types, sizes, i
           onClick={() => {
             setCount((prev) => prev + 1);
             dispatch(
-              addItem({
+              addItemToCart({
                 title,
                 price,
                 imageUrl,

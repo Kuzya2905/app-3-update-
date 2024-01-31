@@ -1,7 +1,7 @@
 import PlusSVG from "../components/Card/SVG/PlusSVG.tsx";
 import CheckMark from "./Cart-SVG/Сheck-markSVG.tsx";
 import React from "react";
-import { addItem, setTotalPrice, setTotalCount } from "../redux/slices/cart.tsx";
+import { addItemToCart, setTotalPrice, setTotalCount } from "../redux/slices/cart.tsx";
 import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useAppDispatch } from "../redux/store.tsx";
@@ -92,7 +92,7 @@ const Pizza: React.FC = ()=> {
               onClick={() => {
                 setCount((prev) => prev + 1);
                 dispatch(
-                  addItem({
+                  addItemToCart({
                     title: pizza.title,
                     price: pizza.price,
                     imageUrl: pizza.imageUrl,

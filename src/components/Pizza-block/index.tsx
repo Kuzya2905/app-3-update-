@@ -10,6 +10,7 @@ type typesCurrentItems = {id:string, imageUrl:string, title:string, types:number
 const PizzaBlock: React.FC = () =>  {
   const { status } = useSelector((state:RootState) => state.pizzaSlice);
   const { currentItems } = useSelector((state:RootState) => state.pagination);
+  
 
   return (
     <div className="pizza-cards">

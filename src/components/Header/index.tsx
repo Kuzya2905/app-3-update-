@@ -3,13 +3,28 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Search from "../Search/index.tsx";
 import { Route, Routes, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store.tsx";
+import { useSelector} from "react-redux";
+import { RootState, useAppDispatch } from "../../redux/store.tsx";
+import { addItemsFromLocalStorage } from '../../redux/slices/cart.tsx'
 
 const Header:React.FC = ()=> {
-  const { totalPrice, totalCount } = useSelector((state:RootState) => state.cart);
+  const { totalPrice, totalCount, itemsCart } = useSelector((state:RootState) => state.cart);
+
+  const dispatch = useAppDispatch();
 
   const location = useLocation();
+
+  React.useEffect(()=> {
+    const cartItem = localStorage.getItem('cart');
+    if(cartItem){
+      const cartLocalStorage = JSON.parse(cartItem)
+      dispatch(addItemsFromLocalStorage(cartLocalStorage))
+    }
+}, [dispatch])
+
+  React.useEffect(()=> {
+      localStorage.setItem('cart', JSON.stringify(itemsCart))
+  }, [itemsCart])
 
   return (
     <header>

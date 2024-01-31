@@ -24,6 +24,8 @@ function Home() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+
+
   const [isLocationSearch, setIsLocationSearch] = useState(false);
 
   const { valueSearch } = useSelector((state:RootState) => state.visibleItems);

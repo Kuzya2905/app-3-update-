@@ -13,10 +13,11 @@ import { useAppDispatch } from "../../redux/store.tsx";
 
 type itemCartProps = {title:string; count:number; imageUrl: string; types:number; sizes:number; price:number; index:number}
 
+
+
 const ItemCart:React.FC <itemCartProps> = ({ title, count, imageUrl, types, sizes, price, index }) => {
   const dispatch = useAppDispatch();
   const typeNames = ["тонкое", "традиционное"];
-
   return (
     <div className="pizza">
       <div className="info">

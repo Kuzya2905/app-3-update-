@@ -32,7 +32,7 @@ export const cart = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addItem(state, action: PayloadAction<typesItemCart>) {
+    addItemToCart(state, action: PayloadAction<typesItemCart>) {
       const findIdenticalItem = state.itemsCart.find(
         (item) =>
           item.id === action.payload.id &&
@@ -44,9 +44,10 @@ export const cart = createSlice({
       } else {
         state.itemsCart.push({ ...action.payload, count: 1 });
       }
-      
     },
-    
+    addItemsFromLocalStorage (state, action){
+      state.itemsCart = action.payload;
+    },
     setTotalPrice(state) {
       state.totalPrice = state.itemsCart.reduce(
         (acc, item) => acc + item.price * item.count,
@@ -92,13 +93,14 @@ export const cart = createSlice({
 });
 
 export const {
-  addItem,
+  addItemToCart,
   setTotalPrice,
   setTotalCount,
   deleteItem,
   clearCart,
   minusCount,
   plusCount,
+  addItemsFromLocalStorage
 } = cart.actions;
 
 export default cart.reducer;

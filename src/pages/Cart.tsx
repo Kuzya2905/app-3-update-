@@ -16,6 +16,7 @@ const Cart: React.FC = () => {
     (state:RootState) => state.cart
   );
 
+    
   const dispatch = useAppDispatch();
   return (
     <>
